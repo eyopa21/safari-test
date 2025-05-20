@@ -7,4 +7,5 @@ services:
     ports:
       - "5000:5432"
     environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD}}
+      - POSTGRES_PASSWORD=password
+      
