@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: safari-test
+  labels:
+    app: safari-test
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: safari-test
+  template:
+    metadata:
+      labels:
+        app: safari-test
+    spec:
+      containers:
+        - name: safari-test
+          image: eyopaa/safari-test:latest
+          imagePullPolicy: Always
+          
+          ports:
+            - containerPort: 3000
+         
+          env:
+          - name: DB_HOST
+            value: db
+
+          - name: DB_PORT
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: DB_PORT
+
+          - name: DB_NAME
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: DB_NAME
+
+          - name: POSTGRES_USER
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: DB_USER
+    
+          - name: POSTGRES_PASSWORD
+            valueFrom: 
+              secretKeyRef: 
+                name: pg-secret
+                key: DB_PASSWORD
