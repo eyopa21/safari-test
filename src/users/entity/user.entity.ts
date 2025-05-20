@@ -18,6 +18,9 @@ import {
   
     @Column({ type: String })
     full_name: string;
+
+    @Column({ type: String })
+    username: string;
   
     @Column({ type: 'date' })
     date_of_birth: Date;

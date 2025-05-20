@@ -1,6 +1,6 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -19,13 +19,12 @@ async function bootstrap() {
   .setTitle('Safari-test')
   .setDescription('Test api')
   .setVersion('1.0')
-  // .addServer('localhost:3000')
   .addBearerAuth()
   .build();
 const document = SwaggerModule.createDocument(app, options);
 SwaggerModule.setup('api', app, document);
   app.useGlobalFilters(new HttpExceptionFilter())
-
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

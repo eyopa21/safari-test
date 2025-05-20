@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
+  Matches,
   MinLength,
 } from 'class-validator';
 import { SEX } from '../constants/sex.enum';
@@ -27,6 +28,15 @@ export class CreateUserDto {
   readonly email: string;
 
   @ApiProperty({
+    example: 'username',
+    description: 'username',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(5)
+  readonly username: string;
+
+  @ApiProperty({
     example: '0912345678',
     description: 'Phone number',
   })
@@ -37,10 +47,17 @@ export class CreateUserDto {
 
   @ApiProperty({
     example: 'password',
-    description: 'User password',
+    description: 'Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character',
     format: 'password',
   })
-  @MinLength(6)
+  @Matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d@$!%*?&#^()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/,
+      {
+        message:
+          'Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character',
+      },
+    )
+  @MinLength(8)
   @IsNotEmpty()
   readonly password: string;
 
