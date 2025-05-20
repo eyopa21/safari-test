@@ -7,6 +7,12 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import jwtConfig from './auth/config/jwt.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApplicationsModule } from './applications/applications.module';
+import { BanksController } from './banks/banks.controller';
+import { BanksModule } from './banks/banks.module';
+import { BranchesModule } from './branches/branches.module';
+import { TransactionsService } from './transactions/transactions.service';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [  ConfigModule.forRoot({
@@ -24,8 +30,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
-  }),AuthModule, CommonModule, UsersModule],
-  controllers: [AppController],
-  providers: [AppService],
+  }),AuthModule, CommonModule, UsersModule, ApplicationsModule, BanksModule, BranchesModule, TransactionsModule],
+  controllers: [AppController, BanksController],
+  providers: [AppService, TransactionsService],
 })
 export class AppModule {}
