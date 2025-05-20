@@ -3,10 +3,12 @@ import { Applications } from './entity/applications.entity';
 import { Repository } from 'typeorm';
 import { STATUS } from './constants/status.enum';
 import { CreateApplicationDto } from './dto/createApplication.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ApplicationsService {
     constructor(
+      @InjectRepository(Applications)
         private readonly applicationsRepository: Repository<Applications>,
     ){
 

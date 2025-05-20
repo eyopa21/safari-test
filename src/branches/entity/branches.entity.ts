@@ -31,7 +31,7 @@ import {
     updatedAt: Date;
 
 
-    @ManyToOne(() => Banks, (bank) => bank.branches, {)
+    @ManyToOne(() => Banks, (bank) => bank.branches)
     @JoinColumn({ name: 'bank_id' })
     bank: Banks;
   
